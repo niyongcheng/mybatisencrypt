@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.herbalife.is.mybatisencrypt.mapper.StudentMapper">
+
+    <resultMap type="com.herbalife.is.mybatisencrypt.entity.Student" id="studentMap">
+        <id property="id" jdbcType="INTEGER" column="id"/>
+        <result property="name"  jdbcType="VARCHAR" column="name"/>
+        <result property="cellphone" jdbcType="VARCHAR" column="cellphone"/>
+    </resultMap>
+
+    <select id="findStudentById" parameterType="java.lang.Integer" resultMap="studentMap">
+        SELECT id,name,cellphone from Student
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.herbalife.is.mybatisencrypt.entity.Student">
+		INSERT INTO Student (name, age, cellphone) VALUES (#{name}, 100, #{cellphone});
+	</insert>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.herbalife.is.mybatisencrypt.controller.api.v1;
 
 import com.herbalife.is.mybatisencrypt.entity.Student;
+import com.herbalife.is.mybatisencrypt.request.StudentRequest;
 import com.herbalife.is.mybatisencrypt.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,12 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/student/{id}", method = RequestMethod.GET)
-    public Student getStudent(@PathVariable("id") Integer id){
+    public StudentRequest getStudent(@PathVariable("id") Integer id){
         return studentService.findStudentById(id);
     }
 
     @RequestMapping(value = "/student", method = RequestMethod.POST)
-    public void insert(@RequestBody Student student){
+    public void insert(@RequestBody StudentRequest student){
         studentService.insert(student);
     }
 }

@@ -1,4 +1,4 @@
-package com.herbalife.is.mybatisencrypt.entity;
+package com.herbalife.is.mybatisencrypt.request;
 
 import com.herbalife.is.mybatisencrypt.annotation.Cellphone;
 import lombok.Builder;
@@ -10,11 +10,11 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class Student {
+public class StudentRequest {
     private Integer id;
     private String name;
     private Integer age;
 
     @Cellphone
-    private byte[] cellphone;
+    private String cellphone;
 }

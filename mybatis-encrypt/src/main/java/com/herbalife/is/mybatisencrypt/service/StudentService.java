@@ -1,8 +1,8 @@
 package com.herbalife.is.mybatisencrypt.service;
 
-import com.herbalife.is.mybatisencrypt.entity.Student;
+import com.herbalife.is.mybatisencrypt.request.StudentRequest;
 
 public interface StudentService {
-    Student findStudentById(Integer id);
-    void insert(Student student);
+    StudentRequest findStudentById(Integer id);
+    void insert(StudentRequest student);
 }

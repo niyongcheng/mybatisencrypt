@@ -1,6 +1,8 @@
 package com.herbalife.is.mybatisencrypt.interceptor;
 
 import com.herbalife.is.mybatisencrypt.annotation.Cellphone;
+import com.herbalife.is.mybatisencrypt.config.AESConfig;
+import com.herbalife.is.mybatisencrypt.util.AES256Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
@@ -12,9 +14,13 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Signature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -25,6 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Intercepts(@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}))
 public class CellphoneDecryptInterceptor implements Interceptor {
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         System.out.println("被拦截方法执行之前，做的辅助服务······");
@@ -38,7 +45,8 @@ public class CellphoneDecryptInterceptor implements Interceptor {
                     if (field.getAnnotation(Cellphone.class) != null) {
                         field.setAccessible(true);
                         try {
-                            field.set(item,field.get(item).toString().replace("encrypt:",""));
+                            byte[] cellphone = (byte[]) field.get(item);
+                            field.set(item,AES256Util.decrypt(cellphone, "123456"));
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }

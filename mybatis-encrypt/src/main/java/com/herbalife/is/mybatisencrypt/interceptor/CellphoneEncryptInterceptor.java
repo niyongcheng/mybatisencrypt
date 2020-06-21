@@ -1,6 +1,8 @@
 package com.herbalife.is.mybatisencrypt.interceptor;
 
 import com.herbalife.is.mybatisencrypt.annotation.Cellphone;
+import com.herbalife.is.mybatisencrypt.config.AESConfig;
+import com.herbalife.is.mybatisencrypt.util.AES256Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
@@ -13,9 +15,13 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Map;
@@ -23,6 +29,7 @@ import java.util.Map;
 @Slf4j
 @Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})})
 public class CellphoneEncryptInterceptor implements Interceptor {
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         System.out.println("被拦截方法执行之前，做的辅助服务······");
@@ -46,7 +53,10 @@ public class CellphoneEncryptInterceptor implements Interceptor {
                     if (SqlCommandType.INSERT.equals(sqlCommandType) || SqlCommandType.UPDATE.equals(sqlCommandType)) {
                         field.setAccessible(true);
                         if (field.get(parameter) != null) {
-                            field.set(parameter, "encrypt:" + field.get(parameter).toString());
+                            byte[] originalByteArray = (byte[]) field.get(parameter);
+                            String originalString = new String(originalByteArray,
+                                    StandardCharsets.UTF_8);
+                            field.set(parameter, AES256Util.encrypt(originalString,"123456"));
                         }
                     }
                 }

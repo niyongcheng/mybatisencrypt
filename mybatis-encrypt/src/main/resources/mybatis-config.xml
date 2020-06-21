@@ -6,7 +6,9 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <plugins>
-        <plugin interceptor="com.herbalife.is.mybatisencrypt.interceptor.CellphoneInterceptor">
+        <plugin interceptor="com.herbalife.is.mybatisencrypt.interceptor.CellphoneEncryptInterceptor">
+        </plugin>
+        <plugin interceptor="com.herbalife.is.mybatisencrypt.interceptor.CellphoneDecryptInterceptor">
         </plugin>
     </plugins>
 </configuration>

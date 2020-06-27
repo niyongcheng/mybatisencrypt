@@ -17,4 +17,7 @@ public class StudentRequest {
 
     @Cellphone
     private String cellphone;
+
+    @Cellphone
+    private String mobilephone;
 }

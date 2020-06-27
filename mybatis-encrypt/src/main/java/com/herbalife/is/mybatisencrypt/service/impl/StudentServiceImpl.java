@@ -16,7 +16,7 @@ public class StudentServiceImpl implements StudentService {
     private final Charset charset = StandardCharsets.UTF_8;
 
     @Autowired
-    public StudentServiceImpl(StudentMapper studentMapper){
+    public StudentServiceImpl(StudentMapper studentMapper) {
         this.studentMapper = studentMapper;
     }
 
@@ -27,7 +27,8 @@ public class StudentServiceImpl implements StudentService {
                 .id(student.getId())
                 .age(student.getAge())
                 .name(student.getName())
-                .cellphone(new String(student.getCellphone(),this.charset))
+                .cellphone(new String(student.getCellphone(), this.charset))
+                .mobilephone(student.getMobilephone())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class StudentServiceImpl implements StudentService {
                 .age(100)
                 .name(student.getName())
                 .cellphone(student.getCellphone().getBytes(charset))
+                .mobilephone(student.getMobilephone())
                 .build();
         studentMapper.insert(studentObj);
     }

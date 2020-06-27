@@ -52,12 +52,21 @@ public class CellphoneEncryptInterceptor implements Interceptor {
                 if (field.getAnnotation(Cellphone.class) != null) { // update 语句插入 updateTime
                     if (SqlCommandType.INSERT.equals(sqlCommandType) || SqlCommandType.UPDATE.equals(sqlCommandType)) {
                         field.setAccessible(true);
-                        if (field.get(parameter) != null) {
-                            byte[] originalByteArray = (byte[]) field.get(parameter);
-                            String originalString = new String(originalByteArray,
-                                    StandardCharsets.UTF_8);
-                            field.set(parameter, AES256Util.encrypt(originalString,"123456"));
+                        if(field.getType() == String.class){
+                            if (field.get(parameter) != null) {
+                               String originalString = (String) field.get(parameter);
+                                field.set(parameter, AES256Util.encryptToString(originalString,"123456"));
+                            }
                         }
+                        else{
+                            if (field.get(parameter) != null) {
+                                byte[] originalByteArray = (byte[]) field.get(parameter);
+                                String originalString = new String(originalByteArray,
+                                        StandardCharsets.UTF_8);
+                                field.set(parameter, AES256Util.encrypt(originalString,"123456"));
+                            }
+                        }
+
                     }
                 }
             }

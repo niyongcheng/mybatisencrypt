@@ -17,4 +17,7 @@ public class Student {
 
     @Cellphone
     private byte[] cellphone;
+
+    @Cellphone
+    private String mobilephone;
 }

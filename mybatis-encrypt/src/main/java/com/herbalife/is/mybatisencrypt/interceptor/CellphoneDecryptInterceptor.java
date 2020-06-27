@@ -45,8 +45,15 @@ public class CellphoneDecryptInterceptor implements Interceptor {
                     if (field.getAnnotation(Cellphone.class) != null) {
                         field.setAccessible(true);
                         try {
-                            byte[] cellphone = (byte[]) field.get(item);
-                            field.set(item,AES256Util.decrypt(cellphone, "123456"));
+                            if(field.getType() == String.class){
+                                String mobilephone = (String)field.get(item);
+                                field.set(item,AES256Util.decryptToString(mobilephone.getBytes(StandardCharsets.UTF_8), "123456"));
+                            }
+                            else {
+                                byte[] cellphone = (byte[]) field.get(item);
+                                field.set(item,AES256Util.decrypt(cellphone, "123456"));
+                            }
+
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }

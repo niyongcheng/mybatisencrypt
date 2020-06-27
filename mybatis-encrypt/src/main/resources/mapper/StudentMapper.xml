@@ -11,11 +11,11 @@
     </resultMap>
 
     <select id="findStudentById" parameterType="java.lang.Integer" resultMap="studentMap">
-        SELECT id,name,age,cellphone from Student
+        SELECT id,name,age,cellphone,mobilephone from Student
         where id = #{id};
     </select>
 
 	<insert id="insert" parameterType="com.herbalife.is.mybatisencrypt.entity.Student">
-		INSERT INTO Student (name, age, cellphone) VALUES (#{name}, 100, #{cellphone, jdbcType=BLOB});
+		INSERT INTO Student (name, age, cellphone,mobilephone) VALUES (#{name}, 100, #{cellphone, jdbcType=BLOB},#{mobilephone});
 	</insert>
 </mapper>

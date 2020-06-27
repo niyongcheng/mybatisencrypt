@@ -1,5 +1,6 @@
 package com.herbalife.is.mybatisencrypt.util;
 
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 
 import javax.crypto.Cipher;
@@ -59,6 +60,24 @@ public class AES256Util {
         return null;
     }
 
+
+    public static String encryptToString(String content, String password) {
+        try {
+            SecretKeySpec secretKeySpec = getSecretKeySpec(password);
+            Cipher cipher = getCipher();
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+
+            System.out.println(cipher);
+
+            byte[] byteContent = content.getBytes("utf-8");
+            byte[] cryptograph = cipher.doFinal(byteContent);
+            return new String(Base64.encode(cryptograph), StandardCharsets.UTF_8) ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static byte[] decrypt(byte[] cryptograph, String password) {
         try {
             SecretKeySpec secretKeySpec = getSecretKeySpec(password);
@@ -70,6 +89,23 @@ public class AES256Util {
             byte[] content = cipher.doFinal(Base64.decode(cryptograph));
             //return new String(content);
             return content;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String decryptToString(byte[] cryptograph, String password) {
+        try {
+            SecretKeySpec secretKeySpec = getSecretKeySpec(password);
+            Cipher cipher = getCipher();
+            cipher.init(Cipher.DECRYPT_MODE,secretKeySpec);
+
+            System.out.println(cipher);
+
+            byte[] content = cipher.doFinal(Base64.decode(cryptograph));
+            return new String(content,StandardCharsets.UTF_8);
+            //return content;
         } catch (Exception e) {
             e.printStackTrace();
         }

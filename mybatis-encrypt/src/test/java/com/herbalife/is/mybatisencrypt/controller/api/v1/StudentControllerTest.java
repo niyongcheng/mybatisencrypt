@@ -2,6 +2,7 @@ package com.herbalife.is.mybatisencrypt.controller.api.v1;
 
 import com.herbalife.is.mybatisencrypt.MybatisEncryptApplication;
 import com.herbalife.is.mybatisencrypt.service.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MybatisEncryptApplication.class)
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
+@Slf4j
 class StudentControllerTest {
 
     private final String findStudentById = "/api/v1/student/1";
@@ -38,6 +40,8 @@ class StudentControllerTest {
                 .when(studentService)
                 .findStudentById(any());
 
+        log.info(studentService.toString());
+
         MvcResult mvcResult = this.mockMvc.perform(get(findStudentById).contentType(MediaType.ALL_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -46,5 +50,6 @@ class StudentControllerTest {
 
     @Test
     void insert() {
+        log.info(studentService.toString());
     }
 }
